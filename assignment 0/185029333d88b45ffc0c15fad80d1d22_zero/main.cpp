@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include "vecmath.h"
+#include "color.h"
 using namespace std;
 
 // Globals
@@ -16,20 +17,6 @@ vector<Vector3f> vecn;
 
 // This is the list of faces (indices into vecv and vecn)
 vector<vector<unsigned> > vecf;
-
-struct Color
-{
-	Vector4f RGBA;
-	float* as_float_arr()
-	{
-        float arr[4];
-        arr[0] = RGBA.x();
-        arr[1] = RGBA.y();
-        arr[2] = RGBA.z();
-        arr[3] = RGBA.w();
-        return arr;
-	}
-};
 
 // You will need more global variables to implement color and position changes
 std::vector<Color> colors{{{1, 1, 1, 1}},{{1, 0, 0, 1}}, {{0, 1, 0, 1}}, {{0, 0, 1, 1}}, {{1, 1, 0, 1}}};
