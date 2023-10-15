@@ -1,6 +1,0 @@
-﻿  main.cpp
-D:\UNI\CG\6.837-fall-2012\pages\assignments\assignment 0\185029333d88b45ffc0c15fad80d1d22_zero\main.cpp(108,55): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-D:\UNI\CG\6.837-fall-2012\pages\assignments\assignment 0\185029333d88b45ffc0c15fad80d1d22_zero\main.cpp(87,9): warning C4101: 'i': unreferenced local variable
-D:\UNI\CG\6.837-fall-2012\pages\assignments\assignment 0\185029333d88b45ffc0c15fad80d1d22_zero\color.h(16): warning C4172: returning address of local variable or temporary: arr
-LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
-  zero.vcxproj -> D:\UNI\CG\6.837-fall-2012\pages\assignments\assignment 0\185029333d88b45ffc0c15fad80d1d22_zero\Release\zero.exe
