@@ -11,6 +11,7 @@ public:
 	ObjParser(ObjParser&&) noexcept = default;
 	ObjParser& operator=(const ObjParser&) = default;
 	ObjParser& operator=(ObjParser&&) noexcept = default;
+
 	void read_file(const std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals) override;
 };
 

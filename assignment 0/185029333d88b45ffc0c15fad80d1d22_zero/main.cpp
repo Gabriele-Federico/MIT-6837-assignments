@@ -5,7 +5,6 @@
 #include <vector>
 #include "vecmath.h"
 #include "Color.h"
-#include "modelparser/ModelParser.h"
 #include "modelparser/ObjParser.h"
 using namespace std;
 

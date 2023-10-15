@@ -39,6 +39,15 @@
     <ClCompile Include="vecmath\Vector4f.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="modelparser\ModelParser.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="modelparser\ObjParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="modelparser\ModelParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\gl\freeglut.h">
@@ -74,7 +83,10 @@
     <ClInclude Include="include\vecmath\Vector4f.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="color.h">
+    <ClInclude Include="Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="modelparser\ObjParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
