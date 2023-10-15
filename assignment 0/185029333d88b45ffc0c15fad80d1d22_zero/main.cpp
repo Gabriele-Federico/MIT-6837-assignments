@@ -4,7 +4,9 @@
 #include <sstream>
 #include <vector>
 #include "vecmath.h"
-#include "color.h"
+#include "Color.h"
+#include "modelparser/ModelParser.h"
+#include "modelparser/ObjParser.h"
 using namespace std;
 
 // Globals
@@ -167,6 +169,9 @@ void reshapeFunc(int w, int h)
 void loadInput()
 {
 	// load the OBJ file here
+    ModelParser* parser = new ObjParser();
+    parser->read_file("", vecv, vecn);
+
 }
 
 // Main routine.
