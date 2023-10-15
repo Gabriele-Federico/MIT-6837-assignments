@@ -2,41 +2,60 @@
 #include <iostream>
 #include <sstream>
 
-void ObjParser::read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals)
+void ObjParser::read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals, std::vector<std::vector<unsigned>
+                          >)
 {
 	if(!file.is_open()) return;
 
 	std::string current_line{};
 	while(std::getline(file, current_line))
 	{
-		auto type_to_vector = parse_string(current_line);
-		if(type_to_vector.first == "v")
+		std::stringstream string_stream{current_line};
+		std::string type_string;
+		string_stream >> type_string;
+		const data_type type = get_type(type_string);
+		switch (type)
 		{
-			vertices.push_back(type_to_vector.second);
-		}else if(type_to_vector.first == "vn")
+		case data_type::vertex:
 		{
-			normals.push_back(type_to_vector.second);
+			Vector3f vertex;
+			string_stream >> vertex[0] >> vertex[1] >> vertex[2];
+			vertices.push_back(vertex);
+			break;
 		}
-		else
+		case data_type::normal:
+		{
+			Vector3f normal;
+			string_stream >> normal[0] >> normal[1] >> normal[2];
+			normals.push_back(normal);
+			break;
+		}
+		case data_type::face:
 		{
 			std::cout << current_line << "\n";
+			break;
 		}
+		default:
+			break;
+		}
+		
 	}
 }
 
-std::pair<std::string, Vector3f> ObjParser::parse_string(const std::string& line)
+ObjParser::data_type ObjParser::get_type(const std::string& type_string)
 {
-	std::stringstream string_stream{line};
-	std::string line_type;
-	string_stream >> line_type;
-	Vector3f result{};
-	if(line_type == "v" || line_type == "vn")
+	if (type_string == "v")
 	{
-		string_stream >> result[0] >> result[1] >> result[2];
-	}else
-	{
-		return {};
+		return data_type::vertex;
 	}
-	
-	return {line_type, result};
+	if (type_string == "vn")
+	{
+		return data_type::normal;
+	}
+	if (type_string == "f")
+	{
+		return data_type::face;
+	}
+	return data_type::none;
 }
+

@@ -5,6 +5,13 @@
 
 class ObjParser : public ModelParser
 {
+	enum class data_type
+	{
+		vertex,
+		normal,
+		face,
+		none
+	};
 public:
 	ObjParser() = default;
 	ObjParser(const ObjParser&) = default;
@@ -12,9 +19,10 @@ public:
 	ObjParser& operator=(const ObjParser&) = default;
 	ObjParser& operator=(ObjParser&&) noexcept = default;
 
-	void read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals) override;
+	void read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals, std::vector<std::vector<unsigned>>) override;
 private:
-	std::pair<std::string, Vector3f> parse_string(const std::string& line);
+	ObjParser::data_type get_type(const std::string& type_string);
+
 };
 
 #endif

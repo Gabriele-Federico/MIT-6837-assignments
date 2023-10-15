@@ -17,7 +17,7 @@ vector<Vector3f> vecv;
 vector<Vector3f> vecn;
 
 // This is the list of faces (indices into vecv and vecn)
-vector<vector<unsigned> > vecf;
+vector<vector<unsigned>> vecf;
 
 // You will need more global variables to implement color and position changes
 std::vector<Color> colors{{{1, 1, 1, 1}},{{1, 0, 0, 1}}, {{0, 1, 0, 1}}, {{0, 0, 1, 1}}, {{1, 1, 0, 1}}};
@@ -132,7 +132,7 @@ void drawScene(void)
 	// This GLUT method draws a teapot.  You should replace
 	// it with code which draws the object you loaded.
 	glutSolidTeapot(1.0);
-    
+
     // Dump the image to the screen.
     glutSwapBuffers();
 
@@ -169,7 +169,7 @@ void loadInput()
 {
 	// load the OBJ file here
     ModelParser* parser = new ObjParser();
-    parser->read_file("", vecv, vecn);
+    parser->read_file("garg.obj", vecv, vecn, vecf);
 
 }
 
