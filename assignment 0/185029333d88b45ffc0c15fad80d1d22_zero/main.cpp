@@ -192,7 +192,7 @@ void loadInput()
 {
 	// load the OBJ file here
     ModelParser* parser = new ObjParser();
-    parser->read_file("liberty.obj", vecv, vecn, vecf);
+    parser->read_file("garg.obj", vecv, vecn, vecf);
 
 }
 
