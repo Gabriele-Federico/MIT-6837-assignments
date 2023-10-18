@@ -19,7 +19,8 @@ public:
 	ObjParser& operator=(const ObjParser&) = default;
 	ObjParser& operator=(ObjParser&&) noexcept = default;
 
-	void read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals, std::vector<std::vector<unsigned>>) override;
+	void read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals, std::vector<std::vector<std::pair
+	               <unsigned, unsigned>>>& faces) override;
 private:
 	ObjParser::data_type get_type(const std::string& type_string);
 

@@ -17,7 +17,7 @@ vector<Vector3f> vecv;
 vector<Vector3f> vecn;
 
 // This is the list of faces (indices into vecv and vecn)
-vector<vector<unsigned>> vecf;
+vector<vector<pair<unsigned int, unsigned int>>> vecf;
 
 // You will need more global variables to implement color and position changes
 std::vector<Color> colors{{{1, 1, 1, 1}},{{1, 0, 0, 1}}, {{0, 1, 0, 1}}, {{0, 0, 1, 1}}, {{1, 1, 0, 1}}};
@@ -82,6 +82,28 @@ void specialFunc( int key, int x, int y )
     glutPostRedisplay();
 }
 
+void drawLoadedObject()
+{
+	glBegin(GL_TRIANGLES);
+    for(auto& vec : vecf)
+    {
+	    const unsigned int a = vec[0].first - 1;
+	    const unsigned int c = vec[0].second - 1;
+	    const unsigned int d = vec[1].first - 1;
+	    const unsigned int f = vec[1].second - 1;
+	    const unsigned int g = vec[2].first - 1;
+	    const unsigned int i = vec[2].second - 1;
+		glNormal3d(vecn[c][0], vecn[c][1], vecn[c][2]);
+		glVertex3d(vecv[a][0], vecv[a][1], vecv[a][2]);
+		glNormal3d(vecn[f][0], vecn[f][1], vecn[f][2]);
+		glVertex3d(vecv[d][0], vecv[d][1], vecv[d][2]);
+		glNormal3d(vecn[i][0], vecn[i][1], vecn[i][2]);
+		glVertex3d(vecv[g][0], vecv[g][1], vecv[g][2]);
+    }
+	glEnd();
+}
+
+
 // This function is responsible for displaying the object.
 void drawScene(void)
 {
@@ -131,7 +153,8 @@ void drawScene(void)
 
 	// This GLUT method draws a teapot.  You should replace
 	// it with code which draws the object you loaded.
-	glutSolidTeapot(1.0);
+    drawLoadedObject();
+	//glutSolidTeapot(1.0);
 
     // Dump the image to the screen.
     glutSwapBuffers();
@@ -169,7 +192,7 @@ void loadInput()
 {
 	// load the OBJ file here
     ModelParser* parser = new ObjParser();
-    parser->read_file("garg.obj", vecv, vecn, vecf);
+    parser->read_file("liberty.obj", vecv, vecn, vecf);
 
 }
 

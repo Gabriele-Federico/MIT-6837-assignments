@@ -18,8 +18,9 @@ public:
 
 	virtual std::ifstream open_file(const std::string& filepath);
 	virtual void read_file(const std::string& filepath, std::vector<Vector3f>& vertex_buffer, std::vector<Vector3f>& normals, std::vector<std::
-	                       vector<unsigned>> index_buffer);
-	virtual void read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals, std::vector<std::vector<unsigned>> index_buffer) = 0;
+	                       vector<std::pair<unsigned, unsigned>>>& index_buffer);
+	virtual void read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals, std::vector<std::vector<std::pair
+	                       <unsigned, unsigned>>>& index_buffer) = 0;
 };
 
 #endif

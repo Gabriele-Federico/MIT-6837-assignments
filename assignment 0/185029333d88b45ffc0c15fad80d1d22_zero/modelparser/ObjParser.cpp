@@ -2,8 +2,8 @@
 #include <iostream>
 #include <sstream>
 
-void ObjParser::read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals, std::vector<std::vector<unsigned>
-                          >)
+void ObjParser::read_file(std::ifstream& file, std::vector<Vector3f>& vertices, std::vector<Vector3f>& normals, std::vector<std::vector<std::pair<unsigned, unsigned>>
+                          >& faces)
 {
 	if(!file.is_open()) return;
 
@@ -32,14 +32,28 @@ void ObjParser::read_file(std::ifstream& file, std::vector<Vector3f>& vertices, 
 		}
 		case data_type::face:
 		{
-			std::cout << current_line << "\n";
+			std::vector<std::pair<unsigned int, unsigned int>> face{};
+			constexpr char delimiter = '/';
+			std::string face_string;
+			string_stream >> face_string;
+			std::string prev_string{};
+			while(face_string != prev_string)
+			{
+				unsigned int delimiter_index = face_string.find(delimiter);
+				const unsigned int vertex_index = std::atoi(face_string.substr(0, delimiter_index).c_str());
+				delimiter_index = face_string.find(delimiter, delimiter_index + 1);
+				const unsigned int normal_index = std::atoi(face_string.substr(delimiter_index + 1, *face_string.end() - 1).c_str());
+				prev_string = face_string;
+				string_stream >> face_string;
+				face.emplace_back(vertex_index, normal_index);
+			}
+			faces.push_back(face);
 			break;
 		}
 		default:
 			break;
 		}
-		
-	}
+	} 
 }
 
 ObjParser::data_type ObjParser::get_type(const std::string& type_string)
