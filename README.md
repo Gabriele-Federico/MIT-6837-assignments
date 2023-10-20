@@ -5,7 +5,7 @@ I'm also going (or at least try) to complete all of the "extra credits" parts of
 ## Assignment 0
 
 ### Main Part
-Assignment 0 consists in some basing handling of colors in and light position using OpenGL, as well as reading meshes from a .obj file.
+Assignment 0 consists in some basic handling of colors and light position using OpenGL, as well as reading meshes from a .obj file.
 
 ### Extra Credit
 
@@ -33,8 +33,8 @@ Assignment 0 consists in some basing handling of colors in and light position us
 
 ### Extra Credit
 
-## Assignment 4
+## Assignment 5
 
 ### Main Part
 
-### Extra Credit 5
+### Extra Credit
