@@ -24,6 +24,10 @@ vector<vector<pair<unsigned int, unsigned int>>> vecf;
 std::vector<Color> colors{{{1, 1, 1, 1}},{{1, 0, 0, 1}}, {{0, 1, 0, 1}}, {{0, 0, 1, 1}}, {{1, 1, 0, 1}}};
 int counter = 0;
 
+Color currentColor = colors[0];
+Color colorDiff;
+Color activeColor = colors[0];
+
 float lightPos[] = {1.0, 1.0, 5.0, 1.0};
 
 // These are convenience functions which allow us to call OpenGL 
@@ -33,6 +37,12 @@ inline void glVertex(const Vector3f &a)
 
 inline void glNormal(const Vector3f &a) 
 { glNormal3fv(a); }
+
+void changeColorInTime(int value)
+{
+	activeColor.RGBA	= activeColor.RGBA + colorDiff.RGBA/1000;
+    glutPostRedisplay();
+}
 
 // This function is called whenever a "Normal" key press is received.
 void handleInput( unsigned char key, int x, int y )
@@ -45,6 +55,12 @@ void handleInput( unsigned char key, int x, int y )
     case 'c':
         // add code to change color here
         counter = (counter+1) % colors.size();
+        currentColor = colors[counter];
+        colorDiff.RGBA = currentColor.RGBA - activeColor.RGBA;
+        for(int i = 0; i < 1000; ++i)
+        {
+        	glutTimerFunc(i, changeColorInTime, 0);
+        }
         break;
     case 'r':
         angle += 30;
@@ -140,9 +156,9 @@ void drawScene(void)
                                  {0.9, 0.5, 0.5, 1.0},
                                  {0.5, 0.9, 0.3, 1.0},
                                  {0.3, 0.8, 0.9, 1.0} };
-    
+
 	// Here we use the first color entry as the diffuse color
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, colors[counter].asFloatArr());
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, activeColor.asFloatArr());
 
 	// Define specular color and shininess
     GLfloat specColor[] = {1.0, 1.0, 1.0, 1.0};
