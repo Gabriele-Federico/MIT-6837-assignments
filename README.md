@@ -8,6 +8,7 @@ I'm also going (or at least try) to complete all of the "extra credits" parts of
 Assignment 0 consists in some basic handling of colors and light position using OpenGL, as well as reading meshes from a .obj file.
 
 ### Extra Credit
+First extra credit task was to spin an object
 
 ## Assignment 1
 

@@ -3,12 +3,13 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "vecmath.h"
 #include "Color.h"
 #include "modelparser/ObjParser.h"
 using namespace std;
 
 // Globals
+
+double angle = 0;
 
 // This is the list of points (3D vectors)
 vector<Vector3f> vecv;
@@ -33,9 +34,8 @@ inline void glVertex(const Vector3f &a)
 inline void glNormal(const Vector3f &a) 
 { glNormal3fv(a); }
 
-
 // This function is called whenever a "Normal" key press is received.
-void keyboardFunc( unsigned char key, int x, int y )
+void handleInput( unsigned char key, int x, int y )
 {
     switch ( key )
     {
@@ -46,8 +46,11 @@ void keyboardFunc( unsigned char key, int x, int y )
         // add code to change color here
         counter = (counter+1) % colors.size();
         break;
-    default:
-        cout << "Unhandled key press " << key << "." << endl;        
+    case 'r':
+        angle += 30;
+        break;
+	default:
+        cout << "Unhandled key press " << key << "." << endl;
     }
 
 	// this will refresh the screen so that the user sees the color change
@@ -56,7 +59,7 @@ void keyboardFunc( unsigned char key, int x, int y )
 
 // This function is called whenever a "Special" key press is received.
 // Right now, it's handling the arrow keys.
-void specialFunc( int key, int x, int y )
+void changeLightPosition( int key, int x, int y )
 {
     switch ( key )
     {
@@ -85,7 +88,7 @@ void specialFunc( int key, int x, int y )
 void drawLoadedObject()
 {
 	glBegin(GL_TRIANGLES);
-    for(auto& vec : vecf)
+	for(auto& vec : vecf)
     {
 	    const unsigned int a = vec[0].first - 1;
 	    const unsigned int c = vec[0].second - 1;
@@ -114,7 +117,9 @@ void drawScene(void)
 
     // Rotate the image
     glMatrixMode( GL_MODELVIEW );  // Current matrix affects objects positions
+    glPushMatrix();
     glLoadIdentity();              // Initialize to the identity
+	glRotatef(angle,0.0,0.0,1.0);
 
     // Position the camera at [0,0,5], looking at [0,0,0],
     // with [0,1,0] as the up direction.
@@ -153,12 +158,13 @@ void drawScene(void)
 
 	// This GLUT method draws a teapot.  You should replace
 	// it with code which draws the object you loaded.
-    drawLoadedObject();
-	//glutSolidTeapot(1.0);
+	drawLoadedObject();
+    //glutSolidTeapot(1.0);
+
+    glPopMatrix();
 
     // Dump the image to the screen.
     glutSwapBuffers();
-
 
 }
 
@@ -216,8 +222,8 @@ int main( int argc, char** argv )
     initRendering();
 
     // Set up callback functions for key presses
-    glutKeyboardFunc(keyboardFunc); // Handles "normal" ascii symbols
-    glutSpecialFunc(specialFunc);   // Handles "special" keyboard keys
+    glutKeyboardFunc(handleInput); // Handles "normal" ascii symbols
+    glutSpecialFunc(changeLightPosition);   // Handles "special" keyboard keys
 
      // Set up the callback function for resizing windows
     glutReshapeFunc( reshapeFunc );
