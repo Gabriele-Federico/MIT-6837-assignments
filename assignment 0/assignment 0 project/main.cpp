@@ -87,6 +87,10 @@ void changeLightPosition( int key, int x, int y )
 
 void drawLoadedObject()
 {
+    GLuint index = glGenLists(1);
+
+    glNewList(index, GL_COMPILE);
+
 	glBegin(GL_TRIANGLES);
 	for(auto& vec : vecf)
     {
@@ -104,6 +108,8 @@ void drawLoadedObject()
 		glVertex3d(vecv[g][0], vecv[g][1], vecv[g][2]);
     }
 	glEnd();
+    glEndList();
+    glCallList(index);
 }
 
 
@@ -199,6 +205,7 @@ void loadInput()
 	// load the OBJ file here
     ModelParser* parser = new ObjParser();
     parser->read_file("garg.obj", vecv, vecn, vecf);
+	drawLoadedObject();
 
 }
 
