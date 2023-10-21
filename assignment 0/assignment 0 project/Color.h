@@ -6,7 +6,7 @@
 struct Color
 {
 	Vector4f RGBA;
-	float* as_float_arr()
+	float* asFloatArr()
 	{
         float arr[4];
         arr[0] = RGBA.x();
