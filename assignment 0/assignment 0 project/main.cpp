@@ -4,12 +4,14 @@
 #include <sstream>
 #include <vector>
 #include "Color.h"
+#include "Vector2f.h"
 #include "modelparser/ObjParser.h"
 using namespace std;
 
 // Globals
 
 double angle = 0;
+double zoomFactor = 1;
 
 // This is the list of points (3D vectors)
 vector<Vector3f> vecv;
@@ -141,6 +143,9 @@ void drawScene(void)
     glMatrixMode( GL_MODELVIEW );  // Current matrix affects objects positions
     glPushMatrix();
     glLoadIdentity();              // Initialize to the identity
+    int width = glutGet(GLUT_WINDOW_WIDTH);
+    int height = glutGet(GLUT_WINDOW_HEIGHT);
+    glScaled(zoomFactor, zoomFactor, 1);
 	glRotatef(angle,0.0,0.0,1.0);
 
     // Position the camera at [0,0,5], looking at [0,0,0],
@@ -225,6 +230,19 @@ void loadInput()
 
 }
 
+void handleMouseWheel(int wheel, int direction, int x, int y)
+{
+	if(direction > 0)
+	{
+		zoomFactor += 0.05;
+	}
+    else
+    {
+	    zoomFactor -= 0.05;
+    }
+    glutPostRedisplay();
+}
+
 // Main routine.
 // Set up OpenGL, define the callbacks and start the main loop
 int main( int argc, char** argv )
@@ -253,6 +271,8 @@ int main( int argc, char** argv )
 
     // Call this whenever window needs redrawing
     glutDisplayFunc( drawScene );
+
+    glutMouseWheelFunc(handleMouseWheel);
 
     // Start the main loop.  glutMainLoop never returns.
     glutMainLoop( );
