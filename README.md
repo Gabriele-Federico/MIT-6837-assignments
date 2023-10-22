@@ -9,7 +9,7 @@ Implementations won't necesseraly be good, I just want them to work a bit, my go
 Assignment 0 consists in some basic handling of colors and light position using OpenGL, as well as reading meshes from a .obj file.
 
 ### Extra Credit
-"Easy" part of the extra credit was about spinning an object, displaying the object using display lists or vertex buffers (used display list in this case to try something I've never heard of) and smoothing the color transition.
+"Easy" part of the extra credit was about spinning an object, displaying the object using display lists or vertex buffers (used display list in this case to try something I've never heard of) and smoothing the color transition. \
 "Medium" part of the extra credit was about building some sort of camera, I've kinda done it, but glut doesn't seem as easy to use or supported as glew, I will want to implement a better camera system in the future.
 
 ## Assignment 1
