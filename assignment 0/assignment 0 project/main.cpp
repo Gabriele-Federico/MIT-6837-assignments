@@ -4,12 +4,22 @@
 #include <sstream>
 #include <vector>
 #include "Color.h"
+#include "Vector2f.h"
 #include "modelparser/ObjParser.h"
 using namespace std;
 
 // Globals
 
 double angle = 0;
+double zoomFactor = 5;
+std::pair<int, int> lastMousePos = std::make_pair(-1, -1);
+double cameraPosX = 0;
+double cameraPosY = 0;
+double cameraRotX = 0;
+double cameraRotY = 0;
+bool wheelPressed = false;
+bool leftPressed = false;
+
 
 // This is the list of points (3D vectors)
 vector<Vector3f> vecv;
@@ -141,12 +151,15 @@ void drawScene(void)
     glMatrixMode( GL_MODELVIEW );  // Current matrix affects objects positions
     glPushMatrix();
     glLoadIdentity();              // Initialize to the identity
+    int width = glutGet(GLUT_WINDOW_WIDTH);
+    int height = glutGet(GLUT_WINDOW_HEIGHT);
+    //glScaled(zoomFactor, zoomFactor, 1);
 	glRotatef(angle,0.0,0.0,1.0);
 
     // Position the camera at [0,0,5], looking at [0,0,0],
     // with [0,1,0] as the up direction.
-    gluLookAt(0.0, 0.0, 5.0,
-              0.0, 0.0, 0.0,
+    gluLookAt(cameraRotX, cameraRotY, zoomFactor,
+              cameraPosX, cameraPosY, 0.0,
               0.0, 1.0, 0.0);
 
     // Set material properties of object
@@ -225,6 +238,117 @@ void loadInput()
 
 }
 
+void handleMouseWheel(int wheel, int direction, int x, int y)
+{
+	if(direction > 0)
+	{
+		zoomFactor -= 0.05;
+	}
+    else
+    {
+	    zoomFactor += 0.05;
+    }
+    glutPostRedisplay();
+}
+
+
+void handleMouseInput(int button, int state, int x, int y)
+{
+    switch(button)
+    {
+		case GLUT_MIDDLE_BUTTON:
+			if(state == GLUT_DOWN)
+			{
+                wheelPressed = true;
+				lastMousePos = std::make_pair(x, y);
+			}
+    		else
+			{
+				wheelPressed = false;
+				lastMousePos = std::make_pair(-1, -1);
+			}
+			break;
+		case GLUT_LEFT_BUTTON:
+			if(state == GLUT_DOWN)
+			{
+                leftPressed = true;
+				lastMousePos = std::make_pair(x, y);
+			}
+    		else
+			{
+				leftPressed = false;
+				lastMousePos = std::make_pair(-1, -1);
+			}
+			break;
+    }
+}
+
+
+void moveCamera(int x, int y)
+{
+	auto currentPos = std::make_pair(x, y);
+	std::cout << currentPos.first - lastMousePos.first << " " << currentPos.second - lastMousePos.second << "\n";
+	    
+	if(currentPos.first - lastMousePos.first > 0)
+	{
+		cameraPosX -= .1;
+	}
+	else
+	{
+		cameraPosX += .1;
+	}
+	if(currentPos.second - lastMousePos.second > 0)
+	{
+		cameraPosY -= .1;
+	}
+	else
+	{
+		cameraPosY += .1;
+	}
+		
+	lastMousePos = currentPos;
+}
+
+void rotateCamera(int x, int y)
+{
+	auto currentPos = std::make_pair(x, y);
+	std::cout << currentPos.first - lastMousePos.first << " " << currentPos.second - lastMousePos.second << "\n";
+	    
+	if(currentPos.first - lastMousePos.first > 0)
+	{
+		cameraRotX -= .1;
+	}
+	else
+	{
+		cameraRotX += .1;
+	}
+	if(currentPos.second - lastMousePos.second > 0)
+	{
+		cameraRotY -= .1;
+	}
+	else
+	{
+		cameraRotY += .1;
+	}
+		
+	lastMousePos = currentPos;
+}
+
+void handleMouseMove(int x, int y)
+{
+    if(wheelPressed)
+    {
+	    moveCamera(x, y);
+    }
+    if(leftPressed)
+    {
+	    rotateCamera(x, y);
+    }
+    
+    glutPostRedisplay();
+
+}
+
 // Main routine.
 // Set up OpenGL, define the callbacks and start the main loop
 int main( int argc, char** argv )
@@ -253,6 +377,12 @@ int main( int argc, char** argv )
 
     // Call this whenever window needs redrawing
     glutDisplayFunc( drawScene );
+
+    glutMouseFunc(handleMouseInput);
+
+    glutMouseWheelFunc(handleMouseWheel);
+
+    glutMotionFunc(handleMouseMove);
 
     // Start the main loop.  glutMainLoop never returns.
     glutMainLoop( );
